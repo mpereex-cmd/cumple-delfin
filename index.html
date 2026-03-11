@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Sorpresa!</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+        /* Estilos de la pantalla de contraseña */
+        #login {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+            color: #333;
+            text-align: center;
+        }
+        #login input {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        #login button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #1E90FF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Estilos de la sorpresa (oculta al principio) */
+        #sorpresa {
+            display: none;
+            height: 100vh;
+            width: 100vw;
+            background: linear-gradient(to bottom, #87CEEB, #1E90FF);
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            margin-top: 15vh;
+            font-size: 3.5rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+        .adornos {
+            font-size: 3rem;
+        }
+        /* Animación de los delfines */
+        .delfin {
+            position: absolute;
+            font-size: 6rem;
+            bottom: -150px;
+            animation: saltar 4s infinite ease-in-out;
+        }
+        .d1 { left: 15%; animation-delay: 0s; }
+        .d2 { left: 45%; animation-delay: 1.5s; }
+        .d3 { left: 75%; animation-delay: 0.5s; }
+
+        @keyframes saltar {
+            0% { transform: translateY(0) rotate(-20deg); }
+            50% { transform: translateY(-70vh) rotate(20deg); }
+            100% { transform: translateY(0) rotate(-20deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login">
+        <h2>Acceso Privado 🔒</h2>
+        <p>Introduce la clave para ver tu sorpresa:</p>
+        <input type="password" id="clave" placeholder="Contraseña">
+        <button onclick="verificarClave()">Entrar</button>
+    </div>
+
+    <div id="sorpresa">
+        <h1>¡Feliz Cumpleaños Delfín! 🌊</h1>
+        <div class="adornos">🎈🎉 🎂 🎊 🎈</div>
+        <div class="delfin d1">🐬</div>
+        <div class="delfin d2">🐬</div>
+        <div class="delfin d3">🐬</div>
+    </div>
+
+    <script>
+        function verificarClave() {
+            var intento = document.getElementById('clave').value.toLowerCase();
+            // LA CONTRASEÑA ES "mar" - Puedes cambiarla aquí abajo 👇
+            if(intento === 'mar') { 
+                document.getElementById('login').style.display = 'none';
+                document.getElementById('sorpresa').style.display = 'block';
+                lanzarConfeti();
+            } else {
+                alert('Contraseña incorrecta. ¡Sigue nadando e inténtalo de nuevo!');
+            }
+        }
+
+        function lanzarConfeti() {
+            var duration = 15 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) { return clearInterval(interval); }
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: Math.random(), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+    </script>
+</body>
+</html>
